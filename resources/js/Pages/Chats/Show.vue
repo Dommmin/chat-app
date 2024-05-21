@@ -11,8 +11,8 @@
 
 <script setup>
 import Message from '@/Components/Message.vue';
-import {onMounted, reactive, ref} from 'vue';
-import {router, useForm, usePage} from '@inertiajs/vue3';
+import {onMounted, ref} from 'vue';
+import {useForm} from '@inertiajs/vue3';
 import ChatIndex from '@/Pages/Chats/Index.vue';
 import {useInfiniteScroll} from '@/Composables/useInfiniteScroll.js';
 
