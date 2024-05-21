@@ -5,7 +5,7 @@
     >
         <div
             class="text-white rounded-2xl px-4 py-2 max-w-[250px] lg:max-w-lg"
-            :class="message.from_id === $page.props.auth.user.id ? 'bg-blue-500' : 'bg-gray-500'"
+            :class="message.from_id === $page.props.auth.user.id ? 'bg-secondary' : 'bg-neutral/90'"
         >
             {{message.body}}
         </div>
