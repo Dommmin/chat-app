@@ -13,6 +13,7 @@
         "autoprefixer": "^10.4.16",
         "axios": "^1.6.4",
         "chokidar": "^3.6.0",
+        "daisyui": "^4.11.1",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.32",
@@ -22,6 +23,11 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.5.2",
+        "@fortawesome/free-brands-svg-icons": "^6.5.2",
+        "@fortawesome/free-regular-svg-icons": "^6.5.2",
+        "@fortawesome/free-solid-svg-icons": "^6.5.2",
+        "@fortawesome/vue-fontawesome": "^3.0.6",
         "flowbite": "^2.3.0",
         "flowbite-vue": "^0.1.3"
     }
