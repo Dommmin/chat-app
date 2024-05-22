@@ -29,6 +29,10 @@ class ChatController extends Controller
 
     public function show(Chat $chat, Request $request)
     {
+        if ($request->user()->cant('view', $chat)) {
+            abort(403);
+        }
+
         $chats = $this->chatRepository->getChats();
 
         $messages = Message::whereChatId($chat->id)->latest()->simplePaginate(20)->reverse();
