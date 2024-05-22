@@ -47,4 +47,11 @@ class MessageController extends Controller
 
         return to_route('chats.show', $chat->id)->with('success', 'Message sent');
     }
+
+    public function destroy(Chat $chat, Message $message)
+    {
+        $message->update(['deleted_at' => now()]);
+
+        return to_route('chats.show', $message->chat_id)->with('success', 'Message deleted');
+    }
 }
