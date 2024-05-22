@@ -29,6 +29,18 @@ const submit = () => {
          onFinish: () => form.reset('password'),
       });
 };
+
+const handleLoginAsUser = () => {
+    form.email = 'user@example.com';
+    form.password = 'password';
+    submit();
+}
+
+const handleLoginAsAnotherUser = () => {
+    form.email = 'burnice59@example.org';
+    form.password = 'password';
+    submit();
+}
 </script>
 
 <template>
@@ -96,5 +108,15 @@ const submit = () => {
          Don't have an account yet?
          <Link :href="route('register')" class="text-blue-500 underline ml-2">Register</Link>
       </div>
+       <div class="mt-4 flex justify-between items-center">
+           <button
+               class="btn btn-primary btn-sm"
+               @click="handleLoginAsUser"
+           >Login as User</button>
+           <button
+               class="btn btn-primary btn-sm"
+               @click="handleLoginAsAnotherUser"
+           >Login as Another User</button>
+       </div>
    </AuthenticationCard>
 </template>
