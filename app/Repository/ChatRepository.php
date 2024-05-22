@@ -27,7 +27,7 @@ class ChatRepository
                     ->whereColumn('chats.id', 'chat_participants.chat_id')
                     ->where('chat_participants.user_id', auth()->id());
             })
-            ->with(['users', 'messages' => function ($query): void {
+            ->with(['users:id,name,profile_photo_path', 'messages.sender:id,name,profile_photo_path', 'messages' => function ($query): void {
                 $query->latest()->limit(1)->with(['reads' => function ($query): void {
                     $query->latest()->limit(1);
                 },
