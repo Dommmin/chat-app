@@ -1,22 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table): void {
             $table->id();
             $table->uuid();
-            $table->foreignId('chat_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('from_id')->constrained('users')->cascadeOnDelete();
-            $table->text('body');
+            $table->foreignIdFor(Chat::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class,'from_id')->constrained('users')->cascadeOnDelete();
+            $table->text('body')->nullable();
             $table->string('attachment')->nullable();
             $table->softDeletes();
             $table->timestamps();

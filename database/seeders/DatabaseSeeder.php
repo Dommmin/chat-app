@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ChatSeeder::class);
         $this->call(MessageSeeder::class);
-//        $this->call(ReadSeeder::class);
+        //        $this->call(ReadSeeder::class);
     }
 }

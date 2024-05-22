@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +16,16 @@ class Chat extends Model
 
     protected $guarded = [];
 
+    public static function getChatById(int $id)
+    {
+        return self::query()
+            ->where('id', $id)
+            ->whereHas('users', function ($query): void {
+                $query->where('users.id', auth()->id());
+            })
+            ->firstOrFail();
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'chat_participants')->withTimestamps();
@@ -27,15 +39,5 @@ class Chat extends Model
     public function latestMessage(): HasOne
     {
         return $this->hasOne(Message::class)->latest();
-    }
-
-    public static function getChatById(int $id)
-    {
-        return self::query()
-            ->where('id', $id)
-            ->whereHas('users', function ($query) {
-                $query->where('users.id', auth()->id());
-            })
-            ->firstOrFail();
     }
 }

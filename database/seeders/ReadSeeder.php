@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Chat;
 use App\Models\Message;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReadSeeder extends Seeder
@@ -14,7 +15,7 @@ class ReadSeeder extends Seeder
      */
     public function run(): void
     {
-        $latestMessageIds = Chat::selectSub(function ($query) {
+        $latestMessageIds = Chat::selectSub(function ($query): void {
             $query->select('id')
                 ->from('messages')
                 ->whereColumn('messages.chat_id', 'chats.id')
@@ -29,8 +30,8 @@ class ReadSeeder extends Seeder
             ->select('id', 'to_id')
             ->whereIn('id', $latestMessageIds)
             ->inRandomOrder()
-            ->limit(intval($count / 3))
-            ->chunk(200, function ($messages) {
+            ->limit((int) ($count / 3))
+            ->chunk(200, function ($messages): void {
                 foreach ($messages as $message) {
                     $message->reads()->create([
                         'read_at' => now(),

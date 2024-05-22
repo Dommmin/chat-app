@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -18,11 +20,11 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
+    use HasMergedRelationships;
     use HasProfilePhoto;
+    use HasRelationships;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use HasMergedRelationships;
-    use HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -55,19 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     public function chats(): BelongsToMany
     {
@@ -132,5 +121,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasManyDeepFromRelations($this->friends(), (new User())->statuses())
             ->latest();
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

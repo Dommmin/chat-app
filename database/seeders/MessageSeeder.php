@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Chat;
 use App\Models\Message;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -16,7 +17,7 @@ class MessageSeeder extends Seeder
      */
     public function run(): void
     {
-        Chat::chunk(200, function ($chats) {
+        Chat::chunk(200, function ($chats): void {
             $messages = [];
 
             foreach ($chats as $chat) {

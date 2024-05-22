@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Message;
@@ -21,7 +23,7 @@ class LatestMessageResource extends JsonResource
             'attachment' => $this->attachment,
             'chat_id' => $this->chat_id,
             'created_at' => $this->created_at,
-            'is_read' => $this->from_id == auth()->id() ? true : $this->reads->filter(fn ($read) => $read->user_id == auth()->id())->isNotEmpty(),
+            'is_read' => $this->from_id === auth()->id() ? true : $this->reads->filter(fn ($read) => $read->user_id === auth()->id())->isNotEmpty(),
             //            'read_at' => $this->reads->filter(fn ($read) => $read->user_id == auth()->id())->first()?->created_at ?? null,
         ];
 

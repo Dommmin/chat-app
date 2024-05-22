@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Chat;
@@ -20,7 +22,7 @@ class ChatResource extends JsonResource
             'latest_message' => $this->is_group ? $this->latestMessage : new LatestMessageResource($this->latestMessage),
             //            'users' => $this->is_group ? $this->users : [],
             'users' => $this->users,
-            'user' => $this->users->filter(fn ($user) => $user->id != auth()->id())->first(),
+            'user' => $this->users->filter(fn ($user) => $user->id !== auth()->id())->first(),
             'messages' => $request->is('api/chats/*') ? $this->messages : [],
         ];
 
