@@ -25,6 +25,5 @@ class ChatResource extends JsonResource
             'user' => $this->users->filter(fn ($user) => $user->id !== auth()->id())->first(),
             'messages' => $request->is('api/chats/*') ? $this->messages : [],
         ];
-
     }
 }

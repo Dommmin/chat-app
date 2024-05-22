@@ -26,6 +26,5 @@ class LatestMessageResource extends JsonResource
             'is_read' => $this->from_id === auth()->id() ? true : $this->reads->filter(fn ($read) => $read->user_id === auth()->id())->isNotEmpty(),
             //            'read_at' => $this->reads->filter(fn ($read) => $read->user_id == auth()->id())->first()?->created_at ?? null,
         ];
-
     }
 }
