@@ -76,10 +76,21 @@
                            {{ chat.user.name }}
                         </div>
                         <div class="text-xs truncate">
-                           <span class="text-info" v-if="chat.latest_message.from_id === $page.props.auth.user.id"
-                              >You:
-                           </span>
-                           {{ chat.latest_message.body }}
+                            <p v-if="!chat.latest_message.body && chat.latest_message.attachment">
+                                <span v-if="chat.latest_message.from_id === $page.props.auth.user.id">
+                                    You sent an attachment
+                                </span>
+                                <span v-else>
+                                    {{ chat.latest_message.sender.name }} sent an attachment
+                                </span>
+                            </p>
+                            <p v-else>
+                                <span class="text-info" v-if="chat.latest_message.from_id === $page.props.auth.user.id">
+                                    You:
+                                </span>
+                                <span v-if="chat.latest_message.deleted_at" class="italic">This message has been deleted</span>
+                                <span v-else>{{ chat.latest_message.body }}</span>
+                            </p>
                         </div>
                      </div>
                   </Link>
