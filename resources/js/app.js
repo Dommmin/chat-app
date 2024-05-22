@@ -6,10 +6,12 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { library } from '@fortawesome/fontawesome-svg-core'
+import Toast from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
-import { faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile)
+library.add(faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes)
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -20,6 +22,9 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(Toast, {
+                timeout: 2000,
+            })
             .mount(el);
     },
     progress: {

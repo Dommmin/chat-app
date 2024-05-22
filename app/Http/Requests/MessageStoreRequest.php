@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,8 +24,17 @@ class MessageStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required|string',
-            'attachment' => 'nullable|file',
+            'body' => ['nullable', 'string'],
+            'attachment' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'attachment.image' => 'The attachment must be an image.',
+            'attachment.mimes' => 'The attachment must be a file of type: png, jpg, jpeg.',
+            'attachment.max' => 'The attachment may not be greater than 2MB.',
         ];
     }
 }

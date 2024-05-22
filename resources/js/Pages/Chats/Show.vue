@@ -1,6 +1,10 @@
 <template>
-    <ChatIndex :chats="chats" :sendMessage="sendMessage" :form="form">
-        <div class="space-y-4" ref="scrollContainer">
+    <ChatIndex :chats="chats" :sendMessage="sendMessage" :form="form" :user="user" :attachmentPreview="attachmentPreview" :attachments="attachments">
+        <div
+            class="flex-grow overflow-auto p-4 lg:h-[calc(100vh-128px)] overflow-y-auto space-y-3"
+            style="scrollbar-width: thin;"
+            ref="scrollContainer"
+        >
             <div ref="landmark"></div>
             <div v-for="message in messages.data" :key="message.id">
                 <Message :message="message" />
@@ -11,30 +15,32 @@
 
 <script setup>
 import Message from '@/Components/Message.vue';
-import {onMounted, ref} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import {useForm} from '@inertiajs/vue3';
 import ChatIndex from '@/Pages/Chats/Index.vue';
 import {useInfiniteScroll} from '@/Composables/useInfiniteScroll.js';
+import {toast} from "vue3-toastify";
 
 const form = useForm({
     body: '',
     attachment: null,
 });
 
+const attachmentPreview = reactive({
+    value: '',
+});
+
 const props = defineProps({
     id: Number,
     chats: Object,
     messages: Object,
+    user: Object,
+    attachments: Object,
 });
 
 const landmark = ref(null);
 
 const {items} = useInfiniteScroll('messages', landmark);
-
-// const message = reactive({
-//     body: '',
-//     attachment: null,
-// });
 
 const scrollContainer = ref(null);
 
@@ -43,26 +49,31 @@ const scrollToTheBottom = async () => {
 };
 
 const sendMessage = async () => {
-    if (!form.body) {
+    if (!(form.body || form.attachment)) {
         return;
     }
 
     form.post(route('messages.store', {id: props.id}), {
         onSuccess: () => {
             scrollToTheBottom();
+            form.reset();
+            attachmentPreview.value = '';
         },
+        onError: (errors) => {
+            if (errors.attachment) {
+                toast(errors.attachment, {
+                    type: 'error',
+                    position: 'bottom-right',
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
+        }
     });
-
-    // router.post(route('messages.store', {id: usePage().props.id}), {
-    //     body: message.body,
-    //     attachment: message.attachment
-    // }, {
-    //     onSuccess: () => {
-    //         scrollToTheBottom();
-    //     },
-    // })
-
-    form.reset();
 };
 
 window.Echo
