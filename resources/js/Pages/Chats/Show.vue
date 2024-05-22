@@ -1,88 +1,93 @@
 <template>
-    <ChatIndex :chats="chats" :sendMessage="sendMessage" :form="form" :user="user" :attachmentPreview="attachmentPreview" :attachments="attachments">
-        <div
-            class="flex-grow overflow-auto p-4 lg:h-[calc(100vh-128px)] overflow-y-auto space-y-3"
-            style="scrollbar-width: thin;"
-            ref="scrollContainer"
-        >
-            <div ref="landmark"></div>
-            <div v-for="message in messages.data" :key="message.id">
-                <Message :message="message" />
-            </div>
-        </div>
-    </ChatIndex>
+   <ChatIndex
+      :chats="chats"
+      :sendMessage="sendMessage"
+      :form="form"
+      :user="user"
+      :attachmentPreview="attachmentPreview"
+      :attachments="attachments"
+   >
+      <div
+         class="flex-grow overflow-auto p-4 lg:h-[calc(100vh-128px)] overflow-y-auto space-y-3"
+         style="scrollbar-width: thin"
+         ref="scrollContainer"
+      >
+         <div ref="landmark"></div>
+         <div v-for="message in messages.data" :key="message.id">
+            <Message :message="message" />
+         </div>
+      </div>
+   </ChatIndex>
 </template>
 
 <script setup>
 import Message from '@/Components/Message.vue';
-import {onMounted, reactive, ref} from 'vue';
-import {useForm} from '@inertiajs/vue3';
+import { onMounted, reactive, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 import ChatIndex from '@/Pages/Chats/Index.vue';
-import {useInfiniteScroll} from '@/Composables/useInfiniteScroll.js';
-import {toast} from "vue3-toastify";
+import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js';
+import { toast } from 'vue3-toastify';
 
 const form = useForm({
-    body: '',
-    attachment: null,
+   body: '',
+   attachment: null,
 });
 
 const attachmentPreview = reactive({
-    value: '',
+   value: '',
 });
 
 const props = defineProps({
-    id: Number,
-    chats: Object,
-    messages: Object,
-    user: Object,
-    attachments: Object,
+   id: Number,
+   chats: Object,
+   messages: Object,
+   user: Object,
+   attachments: Object,
 });
 
 const landmark = ref(null);
 
-const {items} = useInfiniteScroll('messages', landmark);
+const { items } = useInfiniteScroll('messages', landmark);
 
 const scrollContainer = ref(null);
 
 const scrollToTheBottom = async () => {
-    scrollContainer.value.scrollTop = scrollContainer.value.scrollHeight
+   scrollContainer.value.scrollTop = scrollContainer.value.scrollHeight;
 };
 
 const sendMessage = async () => {
-    if (!(form.body || form.attachment)) {
-        return;
-    }
+   if (!(form.body || form.attachment)) {
+      return;
+   }
 
-    form.post(route('messages.store', {id: props.id}), {
-        onSuccess: () => {
-            scrollToTheBottom();
-            form.reset();
-            attachmentPreview.value = '';
-        },
-        onError: (errors) => {
-            if (errors.attachment) {
-                toast(errors.attachment, {
-                    type: 'error',
-                    position: 'bottom-right',
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
-            }
-        }
-    });
+   form.post(route('messages.store', { id: props.id }), {
+      onSuccess: () => {
+         scrollToTheBottom();
+         form.reset();
+         attachmentPreview.value = '';
+      },
+      onError: (errors) => {
+         if (errors.attachment) {
+            toast(errors.attachment, {
+               type: 'error',
+               position: 'bottom-right',
+               autoClose: 2000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+            });
+         }
+      },
+   });
 };
 
-window.Echo
-    .channel('chat')
-    .listen('.messages', async () => {
-        console.log('new message');
-    });
+window.Echo.channel('chat').listen('.messages', async () => {
+   console.log('new message');
+});
 
 onMounted(async () => {
-    await scrollToTheBottom();
+   await scrollToTheBottom();
 });
 </script>
