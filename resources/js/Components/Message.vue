@@ -34,6 +34,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { toast } from 'vue3-toastify';
 
 const props = defineProps({
    message: Object,
@@ -43,7 +44,17 @@ const isShow = ref(false);
 
 const handleDelete = (id) => {
    if (confirm('Are you sure you want to delete this message?')) {
-      router.delete(route('messages.destroy', {chat: props.message.chat_id, message: id}));
+      router
+          .delete(
+              route('messages.destroy', {chat: props.message.chat_id, message: id}
+              ), {
+                  onSuccess: () => {
+                      router.visit(route('chats.show', props.message.chat_id));
+                      toast.success('Message deleted successfully', {
+                          autoClose: 1000,
+                      });
+                  }
+              });
    }
 }
 </script>
