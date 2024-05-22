@@ -3,13 +3,14 @@
 declare(strict_types=1);
 
 namespace App\Repository;
+
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 
 class ChatRepository
 {
-    public function getChats()
+    public function getPaginatedChats()
     {
         return Chat::select(['chats.name', 'chats.id', 'chats.is_group'])
             ->joinSub(
@@ -20,14 +21,14 @@ class ChatRepository
                 '=',
                 'latest_messages.chat_id'
             )
-            ->whereExists(function ($query) {
+            ->whereExists(function ($query): void {
                 $query->select(DB::raw(1))
                     ->from('chat_participants')
                     ->whereColumn('chats.id', 'chat_participants.chat_id')
                     ->where('chat_participants.user_id', auth()->id());
             })
-            ->with(['users', 'messages' => function ($query) {
-                $query->latest()->limit(1)->with(['reads' => function ($query) {
+            ->with(['users', 'messages' => function ($query): void {
+                $query->latest()->limit(1)->with(['reads' => function ($query): void {
                     $query->latest()->limit(1);
                 }]);
             }])

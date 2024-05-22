@@ -7,20 +7,20 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ChatResource;
 use App\Http\Resources\MessageResource;
 use App\Models\Chat;
-use App\Models\Message;
 use App\Repository\ChatRepository;
+use App\Repository\MessageRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ChatController extends Controller
 {
-    public function __construct(private readonly ChatRepository $chatRepository)
+    public function __construct(private readonly ChatRepository $chatRepository, private readonly MessageRepository $messageRepository)
     {
     }
 
     public function index()
     {
-        $chats = $this->chatRepository->getChats();
+        $chats = $this->chatRepository->getPaginatedChats();
 
         return Inertia::render('Chats/Index', [
             'chats' => ChatResource::collection($chats),
@@ -33,15 +33,9 @@ class ChatController extends Controller
             abort(403);
         }
 
-        $chats = $this->chatRepository->getChats();
-
-        $messages = Message::whereChatId($chat->id)->latest()->simplePaginate(20)->reverse();
-
-        $attachments = Message::select('attachment')
-            ->whereChatId($chat->id)
-            ->whereNotNull('attachment')
-            ->latest()
-            ->simplePaginate(10);
+        $chats = $this->chatRepository->getPaginatedChats();
+        $messages = $this->messageRepository->getPaginatedMessages($chat);
+        $attachments = $this->messageRepository->getPaginatedAttachments($chat);
 
         $user = $chat->users()->where('user_id', '!=', auth()->id())->first();
 
