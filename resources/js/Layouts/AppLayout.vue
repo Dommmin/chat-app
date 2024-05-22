@@ -35,15 +35,15 @@ const logout = () => {
       <Head :title="title" />
 
       <div class="min-h-screen bg-base-100">
-         <nav class="bg-base-100 border-b border-gray-100 dark:border-gray-700">
+         <nav class="bg-secondary">
             <!-- Primary Navigation Menu -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8">
                <div class="flex justify-between h-14">
                   <div class="flex">
                      <!-- Logo -->
                      <div class="shrink-0 flex items-center">
                         <Link :href="route('home')">
-                           <ApplicationMark class="block h-9 w-auto" />
+<!--                           <ApplicationMark class="block h-9 w-auto" />-->
                         </Link>
                      </div>
 
@@ -53,7 +53,7 @@ const logout = () => {
                         <NavLink :href="route('friends.index')" :active="route().current('friends.index')">
                            Friends
                         </NavLink>
-                        <NavLink :href="route('chats.index')" :active="route().current('chats.index')"> Chats </NavLink>
+                        <NavLink :href="route('chats.index')" :active="route().current('chats.index')"> Messenger </NavLink>
                      </div>
                   </div>
 
@@ -254,7 +254,7 @@ const logout = () => {
                      Friends
                   </ResponsiveNavLink>
                   <ResponsiveNavLink :href="route('chats.index')" :active="route().current('chats.index')">
-                     Chats
+                     Messenger
                   </ResponsiveNavLink>
                </div>
 

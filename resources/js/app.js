@@ -9,9 +9,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import Toast from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
-import { faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes);
+library.add(faCircleInfo, faStar, faPaperPlane, faPaperclip, faSmile, faTimes, faTrash);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

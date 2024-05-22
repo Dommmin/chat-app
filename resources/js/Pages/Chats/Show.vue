@@ -7,16 +7,12 @@
       :attachmentPreview="attachmentPreview"
       :attachments="attachments"
    >
-      <div
-         class="flex-grow overflow-auto p-4 lg:h-[calc(100vh-128px)] overflow-y-auto space-y-3"
-         style="scrollbar-width: thin"
-         ref="scrollContainer"
-      >
-         <div ref="landmark"></div>
-         <div v-for="message in messages.data" :key="message.id">
-            <Message :message="message" />
-         </div>
-      </div>
+       <div class="overflow-auto p-4 h-[calc(100vh-134px)] overflow-y-auto space-y-3" style="scrollbar-width: thin" ref="scrollContainer">
+           <div ref="landmark"></div>
+           <div v-for="message in messages.data" :key="message.id">
+               <Message :message="message" />
+           </div>
+       </div>
    </ChatIndex>
 </template>
 
