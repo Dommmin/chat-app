@@ -19,7 +19,7 @@ return new class() extends Migration
             $table->id();
             $table->uuid();
             $table->foreignIdFor(Chat::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class,'from_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'from_id')->constrained('users')->cascadeOnDelete();
             $table->text('body')->nullable();
             $table->string('attachment')->nullable();
             $table->timestamp('deleted_at')->nullable();

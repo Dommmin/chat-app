@@ -30,8 +30,10 @@ class ChatRepository
             ->with(['users', 'messages' => function ($query): void {
                 $query->latest()->limit(1)->with(['reads' => function ($query): void {
                     $query->latest()->limit(1);
-                }]);
-            }])
+                },
+                ]);
+            },
+            ])
             ->orderByDesc('latest_messages.latest_message_date')
             ->simplePaginate(10, ['*'], 'page_chats');
     }

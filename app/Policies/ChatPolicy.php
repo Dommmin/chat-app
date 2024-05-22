@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Chat;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ChatPolicy
 {
@@ -13,7 +14,6 @@ class ChatPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
     }
 
     /**
@@ -29,7 +29,6 @@ class ChatPolicy
      */
     public function create(User $user): bool
     {
-        //
     }
 
     /**

@@ -20,7 +20,7 @@ class ChatResource extends JsonResource
             'name' => $this->name ?: '',
             'is_group' => (bool) $this->is_group,
             'latest_message' => $this->messages->first(),
-//            'latest_message' => $this->is_group ? $this->latestMessage : new LatestMessageResource($this->latestMessage),
+            //            'latest_message' => $this->is_group ? $this->latestMessage : new LatestMessageResource($this->latestMessage),
             //            'users' => $this->is_group ? $this->users : [],
             'users' => $this->users,
             'user' => $this->users->filter(fn ($user) => $user->id !== auth()->id())->first(),
