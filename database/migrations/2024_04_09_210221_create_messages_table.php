@@ -22,7 +22,7 @@ return new class() extends Migration
             $table->foreignIdFor(User::class,'from_id')->constrained('users')->cascadeOnDelete();
             $table->text('body')->nullable();
             $table->string('attachment')->nullable();
-            $table->softDeletes();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
