@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
 use App\Http\Requests\MessageStoreRequest;
-use App\Http\Resources\MessageResource;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -14,17 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
-    public function index(Chat $chat)
-    {
-        $messages = Message::query()
-            ->whereChatId($chat->id)
-            ->latest()
-            ->simplePaginate(50, ['*'], 'page_messages', request('page', 1))
-            ->reverse();
-
-        return MessageResource::collection($messages);
-    }
-
     public function store(MessageStoreRequest $request, Chat $chat)
     {
         if ($request->user()->cant('view', $chat)) {
@@ -56,6 +44,10 @@ class MessageController extends Controller
     public function destroy(Chat $chat, Message $message, Request $request)
     {
         if ($request->user()->cant('view', $chat)) {
+            abort(403);
+        }
+
+        if ($request->user()->cant('delete', $message)) {
             abort(403);
         }
 

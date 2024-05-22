@@ -42,6 +42,7 @@ class MessagePolicy
      */
     public function delete(User $user, Message $message): bool
     {
+        return $user->id === $message->from_id;
     }
 
     /**
