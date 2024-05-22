@@ -57,7 +57,7 @@
                   <Link
                      :href="route('chats.show', chat.id)"
                      :key="chat.id"
-                     v-for="chat in chats.data"
+                     v-for="chat in items"
                      class="grid grid-cols-6 gap-4 p-3 hover:bg-secondary transform duration-300 hover:text-white"
                      :class="{
                         'bg-secondary text-white': chat.id === $page.props.id,
@@ -83,6 +83,7 @@
                         </div>
                      </div>
                   </Link>
+                   <div ref="landmark"></div>
                </div>
             </div>
          </div>
@@ -213,6 +214,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import 'vue3-emoji-picker/css';
 import EmojiPicker from 'vue3-emoji-picker';
+import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js';
 
 const props = defineProps({
    chats: Object,
@@ -222,6 +224,10 @@ const props = defineProps({
    attachmentPreview: Object,
    attachments: Object,
 });
+
+const landmark = ref(null);
+
+const { items } = useInfiniteScroll('chats', landmark);
 
 let showEmojiPicker = ref(false);
 

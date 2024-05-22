@@ -9,7 +9,7 @@
    >
        <div class="overflow-auto p-4 h-[calc(100vh-134px)] overflow-y-auto space-y-3" style="scrollbar-width: thin" ref="scrollContainer">
            <div ref="landmark"></div>
-           <div v-for="message in messages.data" :key="message.id">
+           <div v-for="message in items" :key="message.id">
                <Message :message="message" />
            </div>
        </div>
@@ -19,10 +19,18 @@
 <script setup>
 import Message from '@/Components/Message.vue';
 import { onMounted, reactive, ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import ChatIndex from '@/Pages/Chats/Index.vue';
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js';
 import { toast } from 'vue3-toastify';
+
+const props = defineProps({
+    id: Number,
+    chats: Object,
+    messages: Object,
+    user: Object,
+    attachments: Object,
+});
 
 const form = useForm({
    body: '',
@@ -31,14 +39,6 @@ const form = useForm({
 
 const attachmentPreview = reactive({
    value: '',
-});
-
-const props = defineProps({
-   id: Number,
-   chats: Object,
-   messages: Object,
-   user: Object,
-   attachments: Object,
 });
 
 const landmark = ref(null);
@@ -58,9 +58,10 @@ const sendMessage = async () => {
 
    form.post(route('messages.store', { id: props.id }), {
       onSuccess: () => {
-         scrollToTheBottom();
          form.reset();
-         attachmentPreview.value = '';
+          attachmentPreview.value = '';
+          router.get(route('chats.show', { id: props.id }));
+          scrollToTheBottom();
       },
       onError: (errors) => {
          if (errors.attachment) {
@@ -83,7 +84,7 @@ window.Echo.channel('chat').listen('.messages', async () => {
    console.log('new message');
 });
 
-onMounted(async () => {
-   await scrollToTheBottom();
+onMounted( () => {
+   scrollToTheBottom();
 });
 </script>
