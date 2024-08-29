@@ -36,13 +36,19 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, pdo_mysql
-          coverage: none
       - name: Install Laravel dependencies
         run: cp .env.example .env && composer install --prefer-dist --no-progress
       - name: Install Vue.js dependencies
         run: npm install
       - name: Build Vue.js dependencies
         run: npm run build
+      - name: Cache Laravel dependencies
+        run: |
+          php artisan optimize |
+          php artisan config:cache |
+          php artisan event:cache |
+          php artisan route:cache |
+          php artisan view:cache
       - name: Archive production artifact
         uses: actions/upload-artifact@v4
         with:
