@@ -14,6 +14,7 @@ class ChatPolicy
      */
     public function viewAny(User $user): bool
     {
+        return true;
     }
 
     /**
@@ -29,6 +30,7 @@ class ChatPolicy
      */
     public function create(User $user): bool
     {
+        return true;
     }
 
     /**

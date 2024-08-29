@@ -45,6 +45,8 @@
         }
     },
     "scripts": {
+        "larastan": "./vendor/bin/phpstan analyse --memory-limit=2G",
+        "pint": "./vendor/bin/pint",
         "pest": "./vendor/bin/pest",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

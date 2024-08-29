@@ -63,15 +63,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Chat::class)->withTimestamps();
     }
 
-    public function hasPendingFriendRequestFor(User $user)
-    {
-        return $this->pendingFriendsTo->contains($user);
-    }
+    //    public function hasPendingFriendRequestFor(User $user)
+    //    {
+    //        return $this->pendingFriendsTo->contains($user);
+    //    }
 
-    public function isFriendsWith(User $user)
-    {
-        return $this->friends->contains($user);
-    }
+    //    public function isFriendsWith(User $user)
+    //    {
+    //        return $this->friends->contains($user);
+    //    }
 
     public function friendsTo()
     {
@@ -117,11 +117,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Status::class);
     }
 
-    public function friendsStatuses()
-    {
-        return $this->hasManyDeepFromRelations($this->friends(), (new User())->statuses())
-            ->latest();
-    }
+    //    public function friendsStatuses()
+    //    {
+    //        return $this->hasManyDeepFromRelations($this->friends(), (new User())->statuses())
+    //            ->latest();
+    //    }
 
     /**
      * Get the attributes that should be cast.
