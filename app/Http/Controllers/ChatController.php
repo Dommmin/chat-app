@@ -14,9 +14,7 @@ use Inertia\Inertia;
 
 class ChatController extends Controller
 {
-    public function __construct(private readonly ChatRepository $chatRepository, private readonly MessageRepository $messageRepository)
-    {
-    }
+    public function __construct(private readonly ChatRepository $chatRepository, private readonly MessageRepository $messageRepository) {}
 
     public function index()
     {

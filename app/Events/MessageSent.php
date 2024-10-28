@@ -17,9 +17,7 @@ class MessageSent implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function broadcastOn()
     {
