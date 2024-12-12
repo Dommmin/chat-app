@@ -25,9 +25,9 @@ export function useInfiniteScroll(propName, landmark = null) {
             onSuccess: () => {
                window.history.replaceState({}, '', initialUrl);
                if (propName === 'messages') {
-                   items.value = [...value().data, ...items.value];
+                  items.value = [...value().data, ...items.value];
                } else {
-                   items.value = [...items.value, ...value().data];
+                  items.value = [...items.value, ...value().data];
                }
             },
          },

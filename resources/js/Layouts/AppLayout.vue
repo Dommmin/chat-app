@@ -43,7 +43,7 @@ const logout = () => {
                      <!-- Logo -->
                      <div class="shrink-0 flex items-center">
                         <Link :href="route('home')">
-<!--                           <ApplicationMark class="block h-9 w-auto" />-->
+                           <!--                           <ApplicationMark class="block h-9 w-auto" />-->
                         </Link>
                      </div>
 
@@ -53,7 +53,9 @@ const logout = () => {
                         <NavLink :href="route('friends.index')" :active="route().current('friends.index')">
                            Friends
                         </NavLink>
-                        <NavLink :href="route('chats.index')" :active="route().current('chats.index')"> Messenger </NavLink>
+                        <NavLink :href="route('chats.index')" :active="route().current('chats.index')">
+                           Messenger
+                        </NavLink>
                      </div>
                   </div>
 

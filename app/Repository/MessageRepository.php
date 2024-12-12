@@ -6,20 +6,23 @@ namespace App\Repository;
 
 use App\Models\Chat;
 use App\Models\Message;
-use Illuminate\Pagination\Paginator;
 
 class MessageRepository
 {
     public function getPaginatedMessages(Chat $chat)
     {
-        return tap(Message::query()
+        $results = Message::query()
             ->where('chat_id', $chat->id)
-            ->latest()
-            ->simplePaginate(30, ['*'], 'page_messages'), function (Paginator $paginator): void {
-                $paginator->setCollection(
-                    $paginator->getCollection()->reverse()->values()
-                );
-            });
+            ->latest('created_at')
+            ->simplePaginate(20, ['*'], 'page_messages');
+
+        $results->setCollection(
+            $results->getCollection()
+                ->sortBy(fn (Message $message) => $message->created_at)
+                ->values()
+        );
+
+        return $results;
     }
 
     public function getPaginatedAttachments(Chat $chat)
