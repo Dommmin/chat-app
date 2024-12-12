@@ -1,5 +1,7 @@
-This is Realtime Chat App.
-Websocekts (Reverb) to communicate between backend/frontend.
+<img src="/public/preview.png" alt="Preview" />
+
+This is Realtime Chat App. <br>
+Websocekt (Reverb) is used to communicate between backend/frontend.
 
 // TODO
 - Group Chats
